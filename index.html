@@ -1,225 +1,352 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data Anak Berprestasi</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      background-color: #f0f2f5;
-      padding: 20px;
-    }
-    .wrapper {
-      max-width: 600px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #1e293b;
-    }
-    .form-box {
-      background: #f8fafc;
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 20px;
-    }
-    .input-group {
-      margin-bottom: 12px;
-    }
-    label {
-      display: block;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: #475569;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-    button.btn-tambah {
-      width: 100%;
-      padding: 10px;
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 15px;
-      cursor: pointer;
-    }
-    button.btn-tambah:hover {
-      background-color: #1d4ed8;
-    }
-    .list-title {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #1e293b;
-    }
-    .card-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .card-item {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      padding: 12px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .info h4 {
-      font-size: 15px;
-      color: #0f172a;
-      margin-bottom: 4px;
-    }
-    .info p {
-      font-size: 13px;
-      color: #64748b;
-    }
-    .badge {
-      background: #e0e7ff;
-      color: #3730a3;
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      margin-left: 6px;
-    }
-    .btn-hapus {
-      background-color: #ef4444;
-      color: white;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-    .btn-hapus:hover {
-      background-color: #dc2626;
-    }
-    .kosong {
-      text-align: center;
-      color: #94a3b8;
-      padding: 15px;
-      font-size: 14px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestasi Anak Nusantara</title>
+    <style>
+        /* --- Reset & Gaya Dasar --- */
+        :root {
+            --primary-color: #3498db; /* Biru cerah */
+            --secondary-color: #2ecc71; /* Hijau sukses */
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* --- Kontainer Utama (Grid) --- */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Responsif untuk Layar HP */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- Gaya Panel Formulir --- */
+        .form-section {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 20px;
+        }
+
+        .form-section h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .btn-submit:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* --- Gaya Panel Daftar (List) --- */
+        .list-section {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .list-section h2 {
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        /* Container untuk Kartu-Kartu */
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* --- Gaya Kartu Prestasi (Achievement Card) --- */
+        .achievement-card {
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 15px;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .child-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        .child-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+
+        .child-info p {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+
+        .achievement-detail {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-top: auto;
+        }
+
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #e74c3c;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+
+        .achievement-card:hover .btn-delete {
+            opacity: 1;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+    </style>
 </head>
 <body>
 
-<div class="wrapper">
-  <h2>🏆 Pendataan Anak Berprestasi</h2>
+<div class="main-container">
+    <!-- BAGIAN KIRI: FORMULIR INPUT -->
+    <div class="form-section">
+        <h2>🏆 Input Prestasi</h2>
+        <form id="entry-form">
+            <div class="form-group">
+                <label for="child-name">Nama Lengkap Anak:</label>
+                <input type="text" id="child-name" placeholder="Contoh: Andi Pratama" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="child-age">Usia (Tahun):</label>
+                <input type="number" id="child-age" placeholder="Contoh: 10" required>
+            </div>
 
-  <!-- Form Input -->
-  <div class="form-box">
-    <div class="input-group">
-      <label>Nama Anak</label>
-      <input type="text" id="nama" placeholder="Contoh: Budi Santoso">
+            <div class="form-group">
+                <label for="achievement-category">Kategori Prestasi:</label>
+                <select id="achievement-category" required>
+                    <option value="" disabled selected>Pilih Kategori...</option>
+                    <option value="Akademik">Akademik (Matematika, Sains, dll)</option>
+                    <option value="Olahraga">Olahraga (Sepakbola, Renang, dll)</option>
+                    <option value="Seni & Budaya">Seni & Budaya (Musik, Tari, dll)</option>
+                    <option value="Kreativitas">Kreativitas & Inovasi</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="achievement-desc">Deskripsi Prestasi:</label>
+                <textarea id="achievement-desc" placeholder="Jelaskan detail prestasinya..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Simpan Data</button>
+        </form>
     </div>
 
-    <div class="input-group">
-      <label>Kategori Prestasi</label>
-      <select id="kategori">
-        <option value="Akademik">Akademik</option>
-        <option value="Olahraga">Olahraga</option>
-        <option value="Seni & Budaya">Seni & Budaya</option>
-        <option value="Lainnya">Lainnya</option>
-      </select>
+    <!-- BAGIAN KANAN: DAFTAR PRESTASI -->
+    <div class="list-section">
+        <h2>Daftar Anak Berprestasi</h2>
+        <div id="achievement-list" class="achievement-grid">
+            <!-- Data akan muncul di sini dalam bentuk kartu -->
+        </div>
     </div>
-
-    <div class="input-group">
-      <label>Detail Prestasi</label>
-      <input type="text" id="prestasi" placeholder="Contoh: Juara 1 Olimpiade Sains">
-    </div>
-
-    <button class="btn-tambah" onclick="tambahData()">Simpan Data</button>
-  </div>
-
-  <!-- Daftar Data -->
-  <div class="list-title">Daftar Prestasi</div>
-  <div id="daftarData" class="card-list">
-    <!-- Data muncul di sini -->
-  </div>
 </div>
 
 <script>
-  // Ambil data tersimpan dari browser
-  let dataSiswa = JSON.parse(localStorage.getItem('siswaPrestasi')) || [];
+    const entryForm = document.getElementById('entry-form');
+    const achievementList = document.getElementById('achievement-list');
 
-  // Fungsi menampilkan data
-  function tampilkanData() {
-    const wadah = document.getElementById('daftarData');
-    wadah.innerHTML = '';
+    // Mengambil data yang tersimpan dari LocalStorage
+    let students = JSON.parse(localStorage.getItem('studentAchievements')) || [];
 
-    if (dataSiswa.length === 0) {
-      wadah.innerHTML = '<div class="kosong">Belum ada data yang diinput.</div>';
-      return;
+    // Fungsi untuk menampilkan data dalam bentuk kartu
+    function renderCards() {
+        achievementList.innerHTML = '';
+
+        if (students.length === 0) {
+            achievementList.innerHTML = '<div class="empty-state">Belum ada data prestasi yang dimasukkan.</div>';
+            return;
+        }
+
+        students.forEach((student, index) => {
+            const card = document.createElement('div');
+            card.className = 'achievement-card';
+            
+            // Logika untuk menampilkan icon berdasarkan kategori
+            let icon = '🌟';
+            if(student.category === 'Olahraga') icon = '⚽';
+            if(student.category === 'Seni & Budaya') icon = '🎨';
+            if(student.category === 'Kreativitas') icon = '💡';
+            if(student.category === 'Akademik') icon = '🧠';
+
+            card.innerHTML = `
+                <button class="btn-delete" onclick="deleteEntry(${index})" title="Hapus Data">×</button>
+                <div class="card-header">
+                    <div class="child-icon">${icon}</div>
+                    <div class="child-info">
+                        <h3>${student.name}</h3>
+                        <p>${student.age} Tahun</p>
+                    </div>
+                </div>
+                <p class="achievement-detail">${student.description}</p>
+                <span class="category-badge">${student.category}</span>
+            `;
+            achievementList.appendChild(card);
+        });
     }
 
-    dataSiswa.forEach((item, index) => {
-      wadah.innerHTML += `
-        <div class="card-item">
-          <div class="info">
-            <h4>${item.nama} <span class="badge">${item.kategori}</span></h4>
-            <p>🥇 ${item.prestasi}</p>
-          </div>
-          <button class="btn-hapus" onclick="hapusData(${index})">Hapus</button>
-        </div>
-      `;
+    // Fungsi untuk menangani submit form
+    entryForm.addEventListener('submit', function(e) {
+        e.preventDefault(); // Mencegah reload halaman
+
+        const name = document.getElementById('child-name').value;
+        const age = document.getElementById('child-age').value;
+        const category = document.getElementById('achievement-category').value;
+        const description = document.getElementById('achievement-desc').value;
+
+        // Menambahkan data baru ke array
+        students.push({
+            name,
+            age,
+            category,
+            description
+        });
+
+        // Menyimpan array yang diperbarui ke LocalStorage
+        localStorage.setItem('studentAchievements', JSON.stringify(students));
+
+        // Mereset formulir dan menampilkan kartu baru
+        entryForm.reset();
+        renderCards();
     });
-  }
 
-  // Fungsi menambah data baru
-  function tambahData() {
-    const nama = document.getElementById('nama').value.trim();
-    const kategori = document.getElementById('kategori').value;
-    const prestasi = document.getElementById('prestasi').value.trim();
-
-    if (nama === '' || prestasi === '') {
-      alert('Nama dan detail prestasi wajib diisi!');
-      return;
+    // Fungsi untuk menghapus data berdasarkan index
+    function deleteEntry(index) {
+        if(confirm(`Apakah Anda yakin ingin menghapus data prestasi ${students[index].name}?`)) {
+            students.splice(index, 1);
+            localStorage.setItem('studentAchievements', JSON.stringify(students));
+            renderCards();
+        }
     }
 
-    // Masukkan ke daftar
-    dataSiswa.push({ nama, kategori, prestasi });
+    // Menampilkan data saat halaman pertama kali dimuat
+    renderCards();
 
-    // Simpan ke memori browser
-    localStorage.setItem('siswaPrestasi', JSON.stringify(dataSiswa));
-
-    // Reset inputan
-    document.getElementById('nama').value = '';
-    document.getElementById('prestasi').value = '';
-
-    tampilkanData();
-  }
-
-  // Fungsi menghapus data
-  function hapusData(index) {
-    dataSiswa.splice(index, 1);
-    localStorage.setItem('siswaPrestasi', JSON.stringify(dataSiswa));
-    tampilkanData();
-  }
-
-  // Jalankan otomatis saat web dibuka
-  tampilkanData();
 </script>
 
 </body>
