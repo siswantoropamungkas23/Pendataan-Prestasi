@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Anak Berprestasi</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-color: #f4f7f6;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2, h3 {
+      text-align: center;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button.btn-simpan {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button.btn-simpan:hover {
+      background-color: #218838;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    .btn-hapus {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .btn-hapus:hover {
+      background-color: #bd2130;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🏆 Pendataan Anak Berprestasi</h2>
+  
+  <!-- Form Input -->
+  <form id="formPrestasi">
+    <div class="form-group">
+      <label for="nama">Nama Anak:</label>
+      <input type="text" id="nama" placeholder="Masukkan nama..." required>
+    </div>
+    
+    <div class="form-group">
+      <label for="prestasi">Prestasi yang Diraih:</label>
+      <input type="text" id="prestasi" placeholder="Contoh: Juara 1 Lomba Melukis..." required>
+    </div>
+    
+    <button type="submit" class="btn-simpan">Tambah Data</button>
+  </form>
+
+  <!-- Tabel Tampilan Data -->
+  <h3>Daftar Prestasi</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Nama</th>
+        <th>Prestasi</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="tabelData">
+      <!-- Data akan muncul di sini secara otomatis -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // Ambil elemen dari HTML
+  const form = document.getElementById('formPrestasi');
+  const namaInput = document.getElementById('nama');
+  const prestasiInput = document.getElementById('prestasi');
+  const tabelData = document.getElementById('tabelData');
+
+  // Ambil data yang tersimpan di browser
+  let listData = JSON.parse(localStorage.getItem('dataPrestasi')) || [];
+
+  // Fungsi untuk menampilkan data ke tabel
+  function tampilkanData() {
+    tabelData.innerHTML = '';
+
+    if (listData.length === 0) {
+      tabelData.innerHTML = `<tr><td colspan="4" style="text-align:center;">Belum ada data.</td></tr>`;
+      return;
+    }
+
+    listData.forEach((item, index) => {
+      const baris = document.createElement('tr');
+      baris.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${item.nama}</td>
+        <td>${item.prestasi}</td>
+        <td><button class="btn-hapus" onclick="hapusData(${index})">Hapus</button></td>
+      `;
+      tabelData.appendChild(baris);
+    });
+  }
+
+  // Fungsi saat tombol "Tambah Data" diklik
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Biar halaman gak reload
+
+    const nama = namaInput.value;
+    const prestasi = prestasiInput.value;
+
+    // Simpan ke array
+    listData.push({ nama: nama, prestasi: prestasi });
+
+    // Simpan ke memori browser (localStorage)
+    localStorage.setItem('dataPrestasi', JSON.stringify(listData));
+
+    // Kosongkan form input
+    namaInput.value = '';
+    prestasiInput.value = '';
+
+    // Tampilkan data terbaru
+    tampilkanData();
+  });
+
+  // Fungsi untuk menghapus data
+  function hapusData(index) {
+    listData.splice(index, 1);
+    localStorage.setItem('dataPrestasi', JSON.stringify(listData));
+    tampilkanData();
+  }
+
+  // Jalankan fungsi tampilkanData saat web pertama kali dibuka
+  tampilkanData();
+</script>
+
+</body>
+</html>
