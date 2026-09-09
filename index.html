@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Anak Berprestasi</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-color: #f0f2f5;
+      padding: 20px;
+    }
+    .wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #1e293b;
+    }
+    .form-box {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 20px;
+    }
+    .input-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #475569;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button.btn-tambah {
+      width: 100%;
+      padding: 10px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    button.btn-tambah:hover {
+      background-color: #1d4ed8;
+    }
+    .list-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #1e293b;
+    }
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card-item {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .info h4 {
+      font-size: 15px;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .info p {
+      font-size: 13px;
+      color: #64748b;
+    }
+    .badge {
+      background: #e0e7ff;
+      color: #3730a3;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 6px;
+    }
+    .btn-hapus {
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .btn-hapus:hover {
+      background-color: #dc2626;
+    }
+    .kosong {
+      text-align: center;
+      color: #94a3b8;
+      padding: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <h2>🏆 Pendataan Anak Berprestasi</h2>
+
+  <!-- Form Input -->
+  <div class="form-box">
+    <div class="input-group">
+      <label>Nama Anak</label>
+      <input type="text" id="nama" placeholder="Contoh: Budi Santoso">
+    </div>
+
+    <div class="input-group">
+      <label>Kategori Prestasi</label>
+      <select id="kategori">
+        <option value="Akademik">Akademik</option>
+        <option value="Olahraga">Olahraga</option>
+        <option value="Seni & Budaya">Seni & Budaya</option>
+        <option value="Lainnya">Lainnya</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Detail Prestasi</label>
+      <input type="text" id="prestasi" placeholder="Contoh: Juara 1 Olimpiade Sains">
+    </div>
+
+    <button class="btn-tambah" onclick="tambahData()">Simpan Data</button>
+  </div>
+
+  <!-- Daftar Data -->
+  <div class="list-title">Daftar Prestasi</div>
+  <div id="daftarData" class="card-list">
+    <!-- Data muncul di sini -->
+  </div>
+</div>
+
+<script>
+  // Ambil data tersimpan dari browser
+  let dataSiswa = JSON.parse(localStorage.getItem('siswaPrestasi')) || [];
+
+  // Fungsi menampilkan data
+  function tampilkanData() {
+    const wadah = document.getElementById('daftarData');
+    wadah.innerHTML = '';
+
+    if (dataSiswa.length === 0) {
+      wadah.innerHTML = '<div class="kosong">Belum ada data yang diinput.</div>';
+      return;
+    }
+
+    dataSiswa.forEach((item, index) => {
+      wadah.innerHTML += `
+        <div class="card-item">
+          <div class="info">
+            <h4>${item.nama} <span class="badge">${item.kategori}</span></h4>
+            <p>🥇 ${item.prestasi}</p>
+          </div>
+          <button class="btn-hapus" onclick="hapusData(${index})">Hapus</button>
+        </div>
+      `;
+    });
+  }
+
+  // Fungsi menambah data baru
+  function tambahData() {
+    const nama = document.getElementById('nama').value.trim();
+    const kategori = document.getElementById('kategori').value;
+    const prestasi = document.getElementById('prestasi').value.trim();
+
+    if (nama === '' || prestasi === '') {
+      alert('Nama dan detail prestasi wajib diisi!');
+      return;
+    }
+
+    // Masukkan ke daftar
+    dataSiswa.push({ nama, kategori, prestasi });
+
+    // Simpan ke memori browser
+    localStorage.setItem('siswaPrestasi', JSON.stringify(dataSiswa));
+
+    // Reset inputan
+    document.getElementById('nama').value = '';
+    document.getElementById('prestasi').value = '';
+
+    tampilkanData();
+  }
+
+  // Fungsi menghapus data
+  function hapusData(index) {
+    dataSiswa.splice(index, 1);
+    localStorage.setItem('siswaPrestasi', JSON.stringify(dataSiswa));
+    tampilkanData();
+  }
+
+  // Jalankan otomatis saat web dibuka
+  tampilkanData();
+</script>
+
+</body>
+</html>
